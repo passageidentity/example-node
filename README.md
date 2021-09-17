@@ -15,6 +15,8 @@ To install the dependencies for this example app, run the following command:
     npm i
 ```
 
+Then run `npm run dev` to start the example application in development mode.
+
 ## Authenticating an HTTP Request with Passage's Express middleware
 
 A Node.js Express server can easily authenticate an HTTP request using the Passage SDK, as shown below. If you would like to use management functionality like getting user information, you must also provide an API key, which can be generated in the Passage console (your api key is required for this example app). Note that authenticating requests do not require an API key, we're just requiring it for this example app to show you the basics of how to retrieve user data.
