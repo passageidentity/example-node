@@ -20,45 +20,49 @@ app.get('/', (req, res) => {
     res.render('index.hbs', { appID: process.env.PASSAGE_APP_ID });
 });
 
-// Authentication using the built-in Passage middleware for Express
+// Authentication using passage class instance
 let passage = new Passage(passageConfig);
-app.get('/dashboard', passage.express, async (req, res) => {
-    try {
-        if (res.passage) {
-            let userID = res.passage.user.id;
-            let user = await res.passage.user.get(userID)
-            res.render('dashboard.hbs', {userEmail: user.email});
-        } else {
-            res.send("User could not be authenticated!");
-        }
-    } catch(e) {
-        console.log(e);
-        res.send("User could not be authenticated!");
+app.get("/authenticatedRoute", async (req, res) => {
+  try {
+    let userID = await passage.authenticateRequest(req);
+    if (userID) {
+      // user is authenticated
+      let { email } = passage.user.get(userID);
+      res.render("You're authenticated with Passage!");
     }
+  } catch (e) {
+    // authentication failed
+    console.log(e);
+    res.send("Authentication failed!");
+  }
 });
 
-// Authentication using passage class instance
-// let passage = new Passage(passageConfig);
-// let myCustomMiddleware = async (req, res, next) => {
+// example of custom middleware
+// let passage = new psg(passageConfig);
+// let customMiddleware = (() => {
+//   return async (req, res, next) => {
 //     try {
-//         let userID = await passage.authenticateRequest(req, res);
-//         if (userID) {
-//             // user is authenticated
-//             res.passage.user.id = userID;
-//             next();
-//         }
-//     } catch(e) {
-//         // authentication failed
-//         console.log(e);
-//         res.status(401).send('');
+//       let userID = await passage.authenticateRequest(req);
+//       if (userID) res.userID = userID;
+//       else res.userID = false;
+//       next();
+//     } catch (e) {
+//       console.log(e);
+//       res.status(401).send("Could not authenticate user!");
 //     }
-// }
+//   };
+// })();
 
-// app.get('/dashboard', myCustomMiddleware, async (req, res) => {
-//     let userID = res.passage.user.id;
-//     let user = await res.passage.user.get(userID)
-//     res.render('dashboard.hbs', {userEmail: user.email});
+// example implementation of custom middleware
+// app.get("/", customMiddleware, async (req, res) => {
+//   let userID = res.userID;
+//   if (userID) {
+//     res.send(userID);
+//   } else {
+//     res.send("Failed to get user");
+//   }
 // });
+
 
 app.listen(5000, () => {
     console.log(`Example app listening on port 5000`);
