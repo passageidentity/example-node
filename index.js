@@ -15,37 +15,55 @@ const passageConfig = {
     apiKey: process.env.PASSAGE_API_KEY,
 };
 
+
 app.get('/', (req, res) => {
-    res.render('index.hbs');
+    res.render('index.hbs', { appID: process.env.PASSAGE_APP_ID });
 });
 
 // Authentication using the built-in Passage middleware for Express
+let passage = new Passage(passageConfig);
+app.get('/dashboard', passage.express, async (req, res) => {
+    try {
+        if (res.passage) {
+            let userID = res.passage.user.id;
+            let user = await res.passage.user.get(userID)
+            res.render('dashboard.hbs', {userEmail: user.email});
+        } else {
+            res.send("User could not be authenticated!");
+        }
+    } catch(e) {
+        console.log(e);
+        res.send("User could not be authenticated!");
+    }
+});
+
+// Authentication using passage class instance
 // let passage = new Passage(passageConfig);
-// app.get('/dashboard', passage.express, async (req, res) => {
-//     // The user has been authenticated!
+// let myCustomMiddleware = async (req, res, next) => {
+//     try {
+//         let userID = await passage.authenticateRequest(req, res);
+//         if (userID) {
+//             // user is authenticated
+//             res.passage.user.id = userID;
+//             next();
+//         }
+//     } catch(e) {
+//         // authentication failed
+//         console.log(e);
+//         res.status(401).send('');
+//     }
+// }
+
+// app.get('/dashboard', myCustomMiddleware, async (req, res) => {
 //     let userID = res.passage.user.id;
 //     let user = await res.passage.user.get(userID)
 //     res.render('dashboard.hbs', {userEmail: user.email});
 // });
 
-// Authentication using passage class instance
-let passage = new Passage(passageConfig);
-app.get('/dashboard', async (req, res) => {
-    try {
-        let userID = await passage.authenticateRequest(req, res);
-        if (userID) {
-            // user is authenticated
-            let userData = await passage.user.get(userID);
-            console.log(userData);
-            res.render('dashboard.hbs', {userEmail: userData.email});
-        }
-    } catch(e) {
-        // authentication failed
-        console.log(e);
-        res.send('Authentication failed!');
-    }
-});
-
 app.listen(5000, () => {
     console.log(`Example app listening on port 5000`);
 });
+
+
+
+app.get('/dashbo')

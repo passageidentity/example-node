@@ -81,6 +81,24 @@ app.get("/dashboard", async (req, res) => {
 });
 ```
 
+Want to make your own Express middlewear? With the Passage class instance, you can verify successful and unsuccessful user authentication in a way that best suits your app:
+
+```javascript
+// Making your own Express middleware?
+let passage = new Passage(passageConfig);
+let myCustomMiddlewear = (req, res, next) => {
+  try {
+    let userID = await passage.authenticateRequest(req, res);
+    if (userID) {
+      // user is authenticated
+      res.passage.user.id = userID;
+    }
+  } catch (e) {
+    // authentication failed
+  }
+};
+```
+
 ## Adding Authentication to the Frontend
 
 The easiest way to add authentication to a web frontend is with a Passage Element. The HTML below will automatically embed a complete UI/UX for user sign-in and sign-up. In this example application, we automatically use the PASSAGE_APP_ID environment variable in the `data-app` attribute.
