@@ -46,10 +46,19 @@ app.get("/", (req, res) => {
 // Authentication using the built-in Passage middleware for Express
 let passage = new Passage(passageConfig);
 app.get("/dashboard", passage.express, async (req, res) => {
-  // The user has been authenticated!
-  let userID = res.passage.user.id;
-  let user = await res.passage.user.get(userID);
-  res.render("dashboard.hbs", { userEmail: user.email });
+  try {
+    if (res.passage) {
+      // The user has been authenticated!
+      let userID = res.passage.user.id;
+      let user = await res.passage.user.get(userID);
+      res.render("dashboard.hbs", { userEmail: user.email });
+    } else {
+      res.status(401).render("");
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(401).render("");
+  }
 });
 
 app.listen(5000, () => {
@@ -84,7 +93,7 @@ app.get("/dashboard", async (req, res) => {
 Want to make your own Express middlewear? With the Passage class instance, you can verify successful and unsuccessful user authentication in a way that best suits your app:
 
 ```javascript
-// Making your own Express middleware?
+// Making your own Express middleware
 let passage = new Passage(passageConfig);
 let myCustomMiddlewear = (req, res, next) => {
   try {
