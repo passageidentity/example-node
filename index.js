@@ -20,48 +20,30 @@ app.get('/', (req, res) => {
     res.render('index.hbs', { appID: process.env.PASSAGE_APP_ID });
 });
 
-// Authentication using passage class instance
-let passage = new Passage(passageConfig);
-app.get("/authenticatedRoute", async (req, res) => {
-  try {
-    let userID = await passage.authenticateRequest(req);
-    if (userID) {
-      // user is authenticated
-      let { email } = passage.user.get(userID);
-      res.render("You're authenticated with Passage!");
-    }
-  } catch (e) {
-    // authentication failed
-    console.log(e);
-    res.send("Authentication failed!");
-  }
-});
-
 // example of custom middleware
-// let passage = new psg(passageConfig);
-// let customMiddleware = (() => {
-//   return async (req, res, next) => {
-//     try {
-//       let userID = await passage.authenticateRequest(req);
-//       if (userID) res.userID = userID;
-//       else res.userID = false;
-//       next();
-//     } catch (e) {
-//       console.log(e);
-//       res.status(401).send("Could not authenticate user!");
-//     }
-//   };
-// })();
+let passage = new Passage(passageConfig);
+let passageAuthMiddleware = (() => {
+   return async (req, res, next) => {
+     try {
+       let userID = await passage.authenticateRequest(req);
+       if (userID) {
+           // user is authenticated
+           res.userID = userID;
+            next();
+       }
+     } catch (e) {
+       console.log(e);
+       res.render("unauthorized.hbs")
+     }
+   };
+ })();
 
-// example implementation of custom middleware
-// app.get("/", customMiddleware, async (req, res) => {
-//   let userID = res.userID;
-//   if (userID) {
-//     res.send(userID);
-//   } else {
-//     res.send("Failed to get user");
-//   }
-// });
+// authenticated route that uses middleware
+app.get("/dashboard", passageAuthMiddleware, async (req, res) => {
+    let userID = res.userID
+    let user = await passage.user.get(userID)
+    res.render('dashboard.hbs', {userEmail: user.email});
+});
 
 
 app.listen(5000, () => {
