@@ -4,108 +4,84 @@ Passage provides a Node.js package to easily authenticate HTTP requests. This re
 
 ## Setup
 
-The [Passage Node.js SDK](https://www.npmjs.com/package/@passageidentity/passage-node) requires a configuration object. For this example app, we'll need to provide our application
-with a Passage appID and apiKey. Navigate to .env and assign PASSAGE_APP_ID equal to your Passage app ID, and PASSAGE_API_KEY to your Passage API key.
+The [Passage Node.js SDK](https://www.npmjs.com/package/@passageidentity/passage-node) requires a configuration object. For this example app, we'll need to provide our application with a Passage App ID and API Key, which can be set in the `.env` file. Your App ID and API Key can be found in the [Passage Console](https://console.passage.id) in your App Settings.
 
 To run this example app, make sure you have [node.js installed on your computer](https://nodejs.org/en/download/).
 
-To install the dependencies for this example app, run the following command:
+To install the dependencies:
 
 ```bash
     npm i
 ```
 
-Then run `npm run dev` to start the example application in development mode.
+To run the application in development mode:
 
-## Authenticating an HTTP Request with Passage's Express middleware
+```bash
+    npm run dev
+```
 
-A Node.js Express server can easily authenticate an HTTP request using the Passage SDK, as shown below. If you would like to use management functionality like getting user information, you must also provide an API key, which can be generated in the Passage console (your api key is required for this example app). Note that authenticating requests do not require an API key, we're just requiring it for this example app to show you the basics of how to retrieve user data.
+## Authenticating an HTTP Request
+
+A Node.js Express server can easily authenticate an HTTP request using the Passage SDK, as shown below. Note that authenticating requests does not require an API key.
 
 ```javascript
 import Passage from "@passageidentity/passage-node";
-import hbs from "hbs";
-import dotenv from "dotenv";
-dotenv.config();
-
 import express from "express";
-let app = express();
-app.use(express.static("views"));
-app.set("view engine", "hbs");
-app.set("view engine", "html");
-app.engine("html", hbs.__express);
 
-const passageConfig = {
-  appID: process.env.PASSAGE_APP_ID,
-  apiKey: process.env.PASSAGE_API_KEY,
+const app = express();
+const port = 3000;
+
+let passageConfig = {
+  appID: "YOUR_APP_ID",
 };
 
-app.get("/", (req, res) => {
-  res.render("index.hbs");
-});
-
-// Authentication using the built-in Passage middleware for Express
+// example of middleware using Passage
 let passage = new Passage(passageConfig);
-app.get("/dashboard", passage.express, async (req, res) => {
-  try {
-    if (res.passage) {
-      // The user has been authenticated!
-      let userID = res.passage.user.id;
-      let user = await res.passage.user.get(userID);
-      res.render("dashboard.hbs", { userEmail: user.email });
-    } else {
-      res.status(401).render("");
+let passageAuthMiddleware = (() => {
+  return async (req: any, res: any, next: NextFunction) => {
+    try {
+      let userID = await passage.authenticateRequest(req);
+      if (userID) {
+        // successfully authenticated. save user ID and continue
+        res.userID = userID;
+        next();
+      }
+    } catch (e) {
+      // failed authentication
+      console.log(e);
+      res.status(401).send("Could not authenticate user!");
     }
-  } catch (e) {
-    console.log(e);
-    res.status(401).render("");
-  }
+  };
+})();
+
+// example usage of passage middleware
+app.get("/authenticatedRoute", passageAuthMiddleware, async (req: Request, res: any) => {
+  let userID = res.userID;
+  // do authenticated things...
 });
 
-app.listen(5000, () => {
-  console.log(`Example app listening on port 5000`);
+app.listen(port, () => {
+  console.log(`Example app running`);
 });
 ```
 
-## HTTP authentication using the Passage class
+## User Management
 
-If you'd prefer to not use the Passage middleware, you can use a Passage class instance:
-
-```javascript
-// Authentication using passage class instance
-let passage = new Passage(passageConfig);
-app.get("/dashboard", async (req, res) => {
-  try {
-    let userID = await passage.authenticateRequest(req, res);
-    if (userID) {
-      // user is authenticated
-      let userData = await passage.user.get(userID);
-      console.log(userData);
-      res.render("dashboard.hbs", { userEmail: userData.email });
-    }
-  } catch (e) {
-    // authentication failed
-    console.log(e);
-    res.send("Authentication failed!");
-  }
-});
-```
-
-Want to make your own Express middlewear? With the Passage class instance, you can verify successful and unsuccessful user authentication in a way that best suits your app:
+The example application also demonstrates some user management functionality, such as getting a user's information. These operations are sensitive and require an API Key to retrieve information from Passage. This can be generated in the [Passage Console](https://console.passage.id).
 
 ```javascript
-// Making your own Express middleware
-let passage = new Passage(passageConfig);
-let myCustomMiddlewear = (req, res, next) => {
-  try {
-    let userID = await passage.authenticateRequest(req, res);
-    if (userID) {
-      // user is authenticated
-      res.passage.user.id = userID;
-    }
-  } catch (e) {
-    // authentication failed
-  }
+// updated passage config
+let passageConfig = {
+  appID: "YOUR_APP_ID",
+  apiKey: "YOUR_API_KEY"
 };
+
+// get user info after authenticating a route
+app.get("/authenticatedRoute", passageAuthMiddleware, async (req: Request, res: any) => {
+  let userID = res.userID;
+  let user = passage.user.get(userID);
+  console.log(user.email)
+});
 ```
 
 ## Adding Authentication to the Frontend
