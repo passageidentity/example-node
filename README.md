@@ -32,13 +32,13 @@ To run the application in development mode:
 
 Make sure you have [docker installed on your computer](https://docs.docker.com/get-docker/).
 
-Create your docker image with the following command:
+Create your docker image:
 
 ```bash
 $ docker build -t example-node .
 ```
 
-Run your docker container using the example-node image:
+Run your docker container using the example-node image, changing the port numbers as necessary:
 
 ```bash
 $ docker run -p 5000:5000 example-node
