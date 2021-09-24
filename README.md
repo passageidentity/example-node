@@ -6,6 +6,8 @@ Passage provides a Node.js package to easily authenticate HTTP requests. This re
 
 The [Passage Node.js SDK](https://www.npmjs.com/package/@passageidentity/passage-node) requires a configuration object. For this example app, we'll need to provide our application with a Passage App ID and API Key, which can be set in the `.env` file. Your App ID and API Key can be found in the [Passage Console](https://console.passage.id) in your App Settings.
 
+## Run With Node
+
 To run this example app, make sure you have [node.js installed on your computer](https://nodejs.org/en/download/).
 
 To install the dependencies:
@@ -20,6 +22,22 @@ To run the application in development mode:
     npm run dev
 ```
 
+## Run With Docker
+
+Make sure you have [docker installed on your computer](https://docs.docker.com/get-docker/).
+
+Create your docker image with the following command:
+
+```bash
+$ docker build -t examaple-node .
+```
+
+Run your docker container using the example-node image:
+
+```bash
+$ docker run -p 5000:5000 example-node
+```
+
 ## Authenticating an HTTP Request
 
 A Node.js Express server can easily authenticate an HTTP request using the Passage SDK, as shown below. Note that authenticating requests does not require an API key.
@@ -29,7 +47,7 @@ import Passage from "@passageidentity/passage-node";
 import express from "express";
 
 const app = express();
-const port = 3000;
+const PORT = 5000;
 
 let passageConfig = {
   appID: "YOUR_APP_ID",
@@ -55,12 +73,16 @@ let passageAuthMiddleware = (() => {
 })();
 
 // example usage of passage middleware
-app.get("/authenticatedRoute", passageAuthMiddleware, async (req: Request, res: any) => {
-  let userID = res.userID;
-  // do authenticated things...
-});
+app.get(
+  "/authenticatedRoute",
+  passageAuthMiddleware,
+  async (req: Request, res: any) => {
+    let userID = res.userID;
+    // do authenticated things...
+  }
+);
 
-app.listen(port, () => {
+app.listen(PORT, () => {
   console.log(`Example app running`);
 });
 ```
@@ -73,15 +95,19 @@ The example application also demonstrates some user management functionality, su
 // updated passage config
 let passageConfig = {
   appID: "YOUR_APP_ID",
-  apiKey: "YOUR_API_KEY"
+  apiKey: "YOUR_API_KEY",
 };
 
 // get user info after authenticating a route
-app.get("/authenticatedRoute", passageAuthMiddleware, async (req: Request, res: any) => {
-  let userID = res.userID;
-  let user = passage.user.get(userID);
-  console.log(user.email)
-});
+app.get(
+  "/authenticatedRoute",
+  passageAuthMiddleware,
+  async (req: Request, res: any) => {
+    let userID = res.userID;
+    let user = passage.user.get(userID);
+    console.log(user.email);
+  }
+);
 ```
 
 ## Adding Authentication to the Frontend
