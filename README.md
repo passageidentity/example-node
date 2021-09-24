@@ -35,7 +35,7 @@ Make sure you have [docker installed on your computer](https://docs.docker.com/g
 Create your docker image with the following command:
 
 ```bash
-$ docker build -t examaple-node .
+$ docker build -t example-node .
 ```
 
 Run your docker container using the example-node image:
