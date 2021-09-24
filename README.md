@@ -4,7 +4,13 @@ Passage provides a Node.js package to easily authenticate HTTP requests. This re
 
 ## Setup
 
-The [Passage Node.js SDK](https://www.npmjs.com/package/@passageidentity/passage-node) requires a configuration object. For this example app, we'll need to provide our application with a Passage App ID and API Key, which can be set in the `.env` file. Your App ID and API Key can be found in the [Passage Console](https://console.passage.id) in your App Settings.
+The [Passage Node.js SDK](https://www.npmjs.com/package/@passageidentity/passage-node) requires a configuration object. For this example app, we'll need to provide our application with a Passage App ID and API Key, which can be set in the `.env` file. Your App ID and API Key can be found in the [Passage Console](https://console.passage.id) in your App Settings. A sample `.env` file is shown here:
+
+```
+PASSAGE_APP_ID=
+PASSAGE_API_KEY=
+PORT=
+```
 
 ## Run With Node
 
@@ -37,6 +43,8 @@ Run your docker container using the example-node image:
 ```bash
 $ docker run -p 5000:5000 example-node
 ```
+
+You can now visit http://localhost:5000 in your browser to see Passage in action.
 
 ## Authenticating an HTTP Request
 

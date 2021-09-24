@@ -3,7 +3,7 @@ import hbs from "hbs";
 import dotenv from "dotenv";
 dotenv.config();
 
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 import express from "express";
 let app = express();
@@ -47,5 +47,5 @@ app.get("/dashboard", passageAuthMiddleware, async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port 5000`);
+  console.log(`Example app listening on port ${PORT}`);
 });
