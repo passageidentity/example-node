@@ -18,7 +18,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="assets/style.css" />
-    <link rel="stylesheet" href="assets/dashboard.css" />
+    <link rel="stylesheet" href="assets/index.css" />
     <title>Try Passage</title>
     <script
       async
@@ -31,31 +31,25 @@
     </script>
   </head>
   <body>
-    <div class="bg-poly"></div>
-
-    <div class="header">
-      {{userIdentifier}}
-      signed in
-      <br />
-      with
-      <strong>Passage.</strong>
+    <div class="mainHeader">
+      <a href="https://passage.id/"><div class="passageLogo"></div></a>
+      <div class="headerText">Passage Node Example App - Login With Profile</div>
+      <div class="spacer"></div>
+      <a href="https://passage.id/"><span class="text">Go to Passage</span></a>
     </div>
 
-    <div class="img-container">
-      <img src="assets/launch.png" alt="People Celebrating" />
+    <div class="MainContainer">
+      <!-- Passage will populate this custom element with a complete authentication UI/UX. -->
+      <passage-auth app-id="{{appID}}"></passage-auth>
+      <!-- Include the passage-web JavaScript from the Passage CDN. -->
+      <script src="https://cdn.passage.id/passage-web.js"></script>
     </div>
-
     <div class="footer">
-      Implement awesome authentication with two lines of code.
-      <br />
-      <a href="https://passage.id">
-        <button class="btn btn-lg">
-          Request Early Access
-        </button>
-      </a>
+      Learn more with our
+      <u><a href="https://docs.passage.id">Documentation</a></u>
+      and
+      <u><a href="https://github.com/passageidentity">Github</a></u>.
     </div>
 
-    <!-- Include the passage-web JavaScript from the Passage CDN. -->
-    <script src="https://cdn.passage.id/passage-web.js"></script>
   </body>
 </html>
