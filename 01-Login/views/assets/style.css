@@ -1,0 +1,22 @@
+.main-header{
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  background-color: #27417E;
+  color: white;
+}
+.header-text {
+  font-size: 32px;
+  margin-left: 10px;
+}
+  
+.passage-logo {
+  background-image: url('https://storage.googleapis.com/passage-docs/passage-logo.svg');
+  background-repeat: no-repeat;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+.spacer {
+  flex-grow: 1;
+}

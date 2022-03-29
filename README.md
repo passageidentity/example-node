@@ -1,3 +1,8 @@
+<img src="https://assets.website-files.com/611bef56e0906b4f195e5adc/6143c10e1d92181a95f86048_PassageLogo.svg" alt="Passage logo" style="width:250px;"/>
+
+<img alt="npm" src="https://img.shields.io/npm/v/@passageidentity/passage-elements?color=43BD15&label=Passage%20Elements">
+<br/><br/>
+
 # Using Passage with Node.js & Express
 
 Passage provides a Node.js package to easily authenticate HTTP requests. This repo is an example of how to use Passage in a Node.js web application built with Express.

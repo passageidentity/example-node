@@ -17,8 +17,8 @@
       integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="assets/index.css" />
     <link rel="stylesheet" href="assets/style.css" />
-    <link rel="stylesheet" href="assets/dashboard.css" />
     <title>Try Passage</title>
     <script
       async
@@ -31,28 +31,29 @@
     </script>
   </head>
   <body>
-    <div class="bg-poly"></div>
 
-    <div class="header">
-      {{userIdentifier}}
-      signed in
-      <br />
-      with
-      <strong>Passage.</strong>
+    <div class="main-header">
+      <a href="https://passage.id/"><div class="passage-logo"></div></a>
+      <div class="header-text">Passage Node Example App - Login With Profile</div>
+      <div class="spacer"></div>
+      <a href="https://passage.id/" class="link" style="color: white">Go to Passage</span></a>
     </div>
 
-    <div class="img-container">
-      <img src="assets/launch.png" alt="People Celebrating" />
+    <div class="main-container">
+      <div class="dashboard">
+        <div class="title">Unauthorized</div>
+        <div class="message">
+          You have not logged in and cannot view the dashboard.
+          <br /><br />
+          <a href="/" class="link" style="color: black">Login to continue.</a>
+        </div>
+      </div>
     </div>
-
     <div class="footer">
-      Implement awesome authentication with two lines of code.
-      <br />
-      <a href="https://passage.id">
-        <button class="btn btn-lg">
-          Request Early Access
-        </button>
-      </a>
+      Learn more with our
+      <u><a href="https://docs.passage.id">Documentation</a></u>
+      and
+      <u><a href="https://github.com/passageidentity">Github</a></u>.
     </div>
 
     <!-- Include the passage-web JavaScript from the Passage CDN. -->
