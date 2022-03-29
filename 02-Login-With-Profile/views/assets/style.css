@@ -1,4 +1,4 @@
-.mainHeader{
+.main-header{
   padding: 20px 30px;
   display: flex;
   align-items: center;
@@ -6,11 +6,11 @@
   color: white;
 }
 .header-text {
-  font-size: 24px;
+  font-size: 32px;
   margin-left: 10px;
 }
   
-.passageLogo {
+.passage-logo {
   background-image: url('https://storage.googleapis.com/passage-docs/passage-logo.svg');
   background-repeat: no-repeat;
   width: 60px;
