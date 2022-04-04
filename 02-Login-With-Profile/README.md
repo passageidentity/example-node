@@ -36,13 +36,13 @@ Make sure you have [docker installed on your computer](https://docs.docker.com/g
 Create your docker image:
 
 ```bash
-$ docker build -t example-node .
+$ docker build -t example-node-2 .
 ```
 
-Run your docker container using the example-node image, changing the port numbers as necessary:
+Run your docker container using the example-node-2 image, changing the port numbers as necessary:
 
 ```bash
-$ docker run -p 5000:5000 example-node
+$ docker run -p 5000:5000 example-node-2
 ```
 
 You can now visit http://localhost:5000 in your browser to see Passage in action.
