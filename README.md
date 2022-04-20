@@ -1,4 +1,4 @@
-<img src="https://storage.googleapis.com/passage-docs/passage-logo-dark.svg" alt="Passage logo" style="width:250px;"/>
+<img src="https://storage.googleapis.com/passage-docs/passage-logo-dark-full.png" alt="Passage logo" style="width:250px;"/>
 
 <img alt="npm" src="https://img.shields.io/npm/v/@passageidentity/passage-elements?color=43BD15&label=Passage%20Elements">
 <br/><br/>
