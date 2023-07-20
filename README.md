@@ -1,6 +1,6 @@
 <img src="https://storage.googleapis.com/passage-docs/passage-logo-gradient.svg" alt="Passage logo" style="width:250px;"/>
 
-<img alt="npm" src="https://img.shields.io/npm/v/@passageidentity/passage-elements?color=43BD15&label=Passage%20Elements">
+<img alt="npm" src="https://img.shields.io/npm/v/@passageidentity/passage-node?color=43BD15&label=@passageidentity/passage-node">
 <br/><br/>
 
 # Passage with Node.js & Express Examples

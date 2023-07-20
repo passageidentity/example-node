@@ -1,7 +1,7 @@
 
 # Using Passage for Login and Profile Pages
 
-In addition to login and regsitration functionality, Passage also provides a pre-built profile page that enables users to view and edit their public account data. This repo is an example of how to build a login and profile expereince using Passage in a Node.js web application built with Express.
+In addition to login and regsitration functionality, Passage also provides a pre-built profile page that enables users to view and edit their public account data. The `02-Login-With_Profile` folder is an example of how to build a login and profile expereince using Passage in a Node.js web application built with Express.
 
 ## Setup
 
@@ -45,7 +45,7 @@ Run your docker container using the example-node-2 image, changing the port numb
 $ docker run -p 5000:5000 example-node-2
 ```
 
-You can now visit http://localhost:5000 in your browser to see Passage in action.
+You can now visit http://localhost:3000 in your browser to see Passage in action.
 
 ## Adding Authentication to the Frontend
 
